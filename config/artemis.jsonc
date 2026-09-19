@@ -7,12 +7,13 @@
   // 1. Global Default Model (Applied to all sub-agents unless overridden below)
   // ------------------------------------------------------------------------------
   "default": {
-    "provider": "google",
-    "model": "gemini-3.8-flash",
+    // MiniMax via OpenAI-compatible bridge (OPENAI_API_KEY + OPENAI_BASE_URL=https://api.minimax.io/v1)
+    "provider": "openai",
+    "model": "MiniMax-M3",
     "thinking_level": "medium",
     "fallback": {
-      "provider": "google",
-      "model": "gemini-3.7-flash",
+      "provider": "openai",
+      "model": "MiniMax-M2.5-highspeed",
       "thinking_level": "medium"
     }
   },
@@ -74,11 +75,13 @@
     // CRITICAL REQUIREMENT: Standard LLMs (including standard Gemini Flash, GPT-4o, Claude 3.7) lack sub-pixel spatial coordinate fine-tuning.
     // To achieve accurate [x, y] point and bounding box localization, this node MUST use specialized Gemini ER (Embodied Reasoning / Robotics) models:
     // e.g., "gemini-robotics-er-2-preview". Non-ER models will fail spatial coordinate detection.
+    // Without Gemini ER, fall back to MiniMax-M3 multimodal grounding (Pro explorer preferred).
     "object_detector": {
-      "model": "gemini-robotics-er-2-preview",
+      "provider": "openai",
+      "model": "MiniMax-M3",
       "fallback": {
-        "provider": "google",
-        "model": "gemini-robotics-er-2-preview"
+        "provider": "openai",
+        "model": "MiniMax-M3"
       }
     },
 
@@ -95,10 +98,11 @@
 
     // 🔽 Hopper: Fast lightweight package name locator
     "hopper": {
-      "model": "gemini-3.5-flash-lite",
+      "provider": "openai",
+      "model": "MiniMax-M2.5-highspeed",
       "fallback": {
-        "provider": "google",
-        "model": "gemini-3.1-flash-lite"
+        "provider": "openai",
+        "model": "MiniMax-M3"
       }
     },
 
